@@ -4,21 +4,20 @@ with open('input.txt', 'r') as file:
     lines = file.readlines()
     lines = list(map(str.strip, lines))
 
-    for line in lines:
-        game_number = int(line.split(':')[0].split()[1])
+    scratches = {}
+
+    for index, line in enumerate(lines):
+        if index not in scratches:
+            scratches[index] = 1
         line = line.split(':')[1]
         winning_numbers = line.strip().split('|')[0].split()
         game_numbers = line.strip().split('|')[1].split()
         
-        winngings = []
-        i = int(game_number)+1
-        for number in game_numbers:
-            if number in winning_numbers:
-                winngings.append(i)
-                i += 1
+        matching_numbers = sum(q in winning_numbers for q in game_numbers)
+
+        for next in range(index + 1, index + matching_numbers + 1):
+            scratches[next] = scratches.get(next, 1) + scratches[index]
         
-        for win in winngings:
-            lines.append(lines[int(win)-1])
 
 
-    print(len(lines))
+    print(sum(scratches.values()))
