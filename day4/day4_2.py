@@ -1,6 +1,5 @@
 with open('input.txt', 'r') as file:
 
-    total_scratchcards = 0
     lines = file.readlines()
     lines = list(map(str.strip, lines))
 
